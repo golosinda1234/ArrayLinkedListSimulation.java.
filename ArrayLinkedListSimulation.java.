@@ -1,1 +1,98 @@
+// Name: Jinrel J. Golosinda
+// Section: 2B
+// Date: september 9
 
+public class ArrayLinkedListSimulation {
+    private int[] array;
+    private int size;
+
+    // Constructor to initialize the array and size
+    public ArrayLinkedListSimulation() {
+        array = new int[10]; // Initial capacity of 10
+        size = 0;
+    }
+
+    // Method to add an element to the end of the array (simulates enqueue in a queue)
+    public void add(int value) {
+        // If the array is full, resize it
+        if (size == array.length) {
+            resizeArray();
+        }
+        // Add the new value to the array
+        array[size] = value;
+        size++;
+    }
+
+    // Method to poll an element (removes and returns the first element, simulating dequeue in a queue)
+    public int poll() {
+        if (size == 0) {
+            return -1; // Array is empty, return special value
+        }
+        int result = array[0];
+        // Shift elements to the left to fill the gap
+        for (int i = 1; i < size; i++) {
+            array[i - 1] = array[i];
+        }
+        size--;
+        return result;
+    }
+
+    // Method to peek at the first element (returns the first element without removing it)
+    public int peek() {
+        if (size == 0) {
+            return -1; // Array is empty, return special value
+        }
+        return array[0];
+    }
+
+    // Method to pop an element (removes and returns the last element, simulating stack behavior)
+    public int pop() {
+        if (size == 0) {
+            return -1; // Array is empty, return special value
+        }
+        int result = array[size - 1];
+        size--; // Decrease size, as we've removed the last element
+        return result;
+    }
+
+    // Helper method to resize the array when it's full
+    private void resizeArray() {
+        int newSize = array.length * 2;
+        int[] newArray = new int[newSize];
+        // Copy all the old elements to the new larger array
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = array[i];
+        }
+        array = newArray; // Point to the new larger array
+    }
+
+    // Main method to test the implementation
+    public static void main(String[] args) {
+        ArrayLinkedListSimulation simulation = new ArrayLinkedListSimulation();
+
+        // Testing the add() method (simulates enqueue operation)
+        simulation.add(1);
+        simulation.add(2);
+        simulation.add(3);
+        simulation.add(4);
+        simulation.add(5);
+
+        System.out.println("After adding 5 elements:");
+        System.out.println("Peek: " + simulation.peek()); // Should return 1 (the first element)
+
+        // Testing the poll() method (simulates dequeue operation)
+        System.out.println("Poll: " + simulation.poll()); // Should return 1 (the first element)
+        System.out.println("Poll: " + simulation.poll()); // Should return 2
+
+        // Testing the peek() method again
+        System.out.println("Peek after polling twice: " + simulation.peek()); // Should return 3 (the next element)
+
+        // Testing the pop() method (simulates stack pop operation)
+        System.out.println("Pop: " + simulation.pop()); // Should return 5 (the last element)
+        System.out.println("Pop: " + simulation.pop()); // Should return 4
+
+        // Final peek and poll after popping elements
+        System.out.println("Peek after popping: " + simulation.peek()); // Should return 3 (the remaining first element)
+        System.out.println("Poll after popping: " + simulation.poll()); // Should return 3
+    }
+}
